@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>在线咨询</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body {
+            background: #f0f4f8;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+        }
+
+        /* 顶部背景渐变 */
+        .header-bg {
+            background: linear-gradient(135deg, #0f766e 0%, #0d9488 50%, #0891b2 100%);
+        }
+
+        /* 呼叫按钮 */
+        .call-btn {
+            background: linear-gradient(135deg, #10b981, #059669);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.35);
+            transition: all 0.25s ease;
+        }
+        .call-btn:active {
+            transform: scale(0.95);
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.25);
+        }
+
+        /* 呼吸动画 */
+        .pulse-ring {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5); }
+            70% { box-shadow: 0 0 0 20px rgba(16, 185, 129, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        /* 服务卡片 */
+        .service-card {
+            background: white;
+            border-radius: 16px;
+            transition: all 0.2s;
+        }
+        .service-card:active {
+            transform: scale(0.97);
+        }
+
+        /* 消息气泡 */
+        .bubble-user {
+            background: #0d9488;
+            color: white;
+            border-radius: 18px 18px 4px 18px;
+        }
+        .bubble-bot {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 18px 18px 18px 4px;
+        }
+
+        /* 打字动画 */
+        .typing-dot {
+            display: inline-block;
+            width: 7px;
+            height: 7px;
+            background: #9ca3af;
+            border-radius: 50%;
+            animation: bounce 1.4s infinite ease-in-out;
+        }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes bounce {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+            30% { transform: translateY(-7px); opacity: 1; }
+        }
+
+        /* 底部安全区 */
+        .safe-area-bottom {
+            padding-bottom: env(safe-area-inset-bottom, 16px);
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部 -->
+    <div class="header-bg text-white px-5 pt-12 pb-8 relative overflow-hidden">
+        <div class="relative z-10">
+            <div class="flex items-center gap-3 mb-2">
+                <span class="text-3xl">🏥</span>
+                <span class="text-sm font-medium bg-white/15 px-3 py-1 rounded-full">在线咨询</span>
+            </div>
+            <h1 class="text-2xl font-bold">在线咨询</h1>
+            <p class="text-white/70 text-sm mt-1">24小时综合咨询服务</p>
+        </div>
+        <!-- 装饰圆 -->
+        <div class="absolute -right-16 -top-16 w-48 h-48 rounded-full bg-white/5"></div>
+        <div class="absolute -right-8 -bottom-8 w-32 h-32 rounded-full bg-white/5"></div>
+    </div>
+
+    <div class="px-4 -mt-6 relative z-20">
+        <!-- 呼叫卡片 -->
+        <div class="service-card p-6 shadow-lg mb-4 text-center">
+            <div class="w-16 h-16 rounded-full bg-emerald-50 mx-auto mb-3 flex items-center justify-center pulse-ring">
+                <i class="fa-solid fa-phone-volume text-2xl text-emerald-600"></i>
+            </div>
+            <h2 class="text-lg font-bold text-gray-800 mb-1">在线咨询</h2>
+            <p class="text-xs text-gray-400 mb-4">点击下方按钮，直接拨打电话</p>
+            <a href="tel:400-123-4567"
+               class="call-btn block w-full py-4 rounded-2xl text-white font-bold text-xl tracking-wider">
+                <i class="fa-solid fa-phone mr-2"></i> 400-123-4567
+            </a>
+            <p class="text-xs text-gray-400 mt-3">
+                <i class="fa-regular fa-clock mr-1"></i> 7×24小时 · 免费咨询
+            </p>
+        </div>
+
+        <!-- 聊天区 -->
+        <div class="service-card p-5 shadow-sm mb-4">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-sm font-semibold text-gray-700 flex items-center gap-2">
+                    <i class="fa-regular fa-comment-dots text-emerald-500"></i>
+                    AI 预咨询
+                </h3>
+                <span class="text-[10px] text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">非 RAG · 纯对话</span>
+            </div>
+            <div id="chat-msgs" class="h-[340px] overflow-y-auto space-y-3 pr-1">
+                <div class="text-center py-8 text-gray-400">
+                    <p class="text-4xl mb-2">💬</p>
+                    <p class="text-sm">直接描述您的症状</p>
+                    <p class="text-xs mt-1">AI 将帮您整理病情，便于电话沟通</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 输入区 -->
+        <div class="service-card p-4 shadow-sm mb-4">
+            <form id="chat-form" class="flex gap-2">
+                <input id="msg-input" type="text"
+                       class="flex-1 px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-emerald-400 focus:ring-1 focus:ring-emerald-200 transition"
+                       placeholder="描述您的症状..." autocomplete="off">
+                <button type="submit"
+                        class="px-5 py-3 rounded-xl bg-emerald-600 text-white text-sm font-medium hover:bg-emerald-500 transition disabled:opacity-50 active:scale-95"
+                        id="send-btn">
+                    <i class="fa-solid fa-paper-plane"></i>
+                </button>
+            </form>
+        </div>
+
+        <!-- 底部提示 -->
+        <div class="service-card p-5 shadow-sm mb-6">
+            <div class="flex items-center gap-3 text-gray-500 text-sm">
+                <i class="fa-solid fa-circle-info text-emerald-400"></i>
+                <span>直接点击上方电话按钮，接通后即可与医护人员沟通</span>
+            </div>
+        </div>
+
+        <!-- FAQ -->
+        <div class="service-card p-5 shadow-sm mb-6">
+            <h3 class="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
+                <i class="fa-solid fa-circle-question text-emerald-500"></i> 常见问题
+            </h3>
+            <div class="space-y-0 divide-y divide-gray-100">
+                <div class="faq-item py-3">
+                    <div class="faq-q flex items-center justify-between" onclick="this.parentElement.classList.toggle('faq-open')">
+                        <span class="text-sm text-gray-600">咨询收费吗？</span>
+                        <i class="fa-solid fa-chevron-down faq-arrow text-xs text-gray-400"></i>
+                    </div>
+                    <div class="faq-a text-xs text-gray-400 mt-1">电话咨询按标准市话收费，无额外服务费。AI 预咨询完全免费。</div>
+                </div>
+                <div class="faq-item py-3">
+                    <div class="faq-q flex items-center justify-between" onclick="this.parentElement.classList.toggle('faq-open')">
+                        <span class="text-sm text-gray-600">什么时间可以咨询？</span>
+                        <i class="fa-solid fa-chevron-down faq-arrow text-xs text-gray-400"></i>
+                    </div>
+                    <div class="faq-a text-xs text-gray-400 mt-1">医院总机 7×24 小时有人接听，AI 预咨询全天可用。</div>
+                </div>
+                <div class="faq-item py-3">
+                    <div class="faq-q flex items-center justify-between" onclick="this.parentElement.classList.toggle('faq-open')">
+                        <span class="text-sm text-gray-600">紧急情况怎么办？</span>
+                        <i class="fa-solid fa-chevron-down faq-arrow text-xs text-gray-400"></i>
+                    </div>
+                    <div class="faq-a text-xs text-gray-400 mt-1">紧急情况请直接拨打 120，本页面不适用于急救场景。</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 底部 -->
+        <div class="text-center text-[10px] text-gray-300 safe-area-bottom">
+            中心医院 · 在线咨询平台
+        </div>
+    </div>
+
+    <script>
+        let isLoading = false;
+
+        // 发送
+        document.getElementById('chat-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (isLoading) return;
+
+            const input = document.getElementById('msg-input');
+            const msg = input.value.trim();
+            if (!msg) return;
+
+            isLoading = true;
+            document.getElementById('send-btn').disabled = true;
+            input.value = '';
+
+            addMsg(msg, 'user');
+            showTyping();
+
+            setTimeout(() => {
+                removeTyping();
+                addMsg(genReply(msg), 'bot');
+                isLoading = false;
+                document.getElementById('send-btn').disabled = false;
+            }, 600 + Math.random() * 1000);
+        });
+
+        // 关键词回复（适合微信小程序场景的简短语气）
+        const replies = {
+            "内科": "内科涵盖心、肺、消化、内分泌等系统。\n\n您可以在电话接通后说“转内科”，然后向医生描述：\n• 主要症状及持续时间\n• 是否发烧\n• 有无基础病史\n\n建议先通过下方的 AI 咨询详细描述，我会帮您整理。",
+            "外科": "外科处理需要手术治疗的疾病。\n\n电话接通后说“转外科”，建议提前说明：\n• 疼痛部位和性质\n• 有无外伤史\n• 是否伴有发热\n\n您也可以现在描述症状，我帮您分析。",
+            "儿科": "儿科为 0-14 岁儿童提供诊疗服务。\n\n电话接通后说“转儿科”，建议说明：\n• 孩子年龄和体重\n• 主要症状\n• 体温情况\n• 精神状态\n\n⚠️ 如果孩子出现呼吸困难、高热惊厥，请直接去急诊或拨打 120。",
+            "妇科": "妇科处理女性生殖系统相关问题。\n\n电话接通后说“转妇科”。如需咨询，可以现在告诉我：\n• 主要不适（腹痛、异常出血等）\n• 持续时间\n• 是否与月经周期相关",
+            "骨科": "骨科处理骨骼、关节、肌肉相关问题。\n\n电话接通后说“转骨科”。建议在电话中说明：\n• 受伤原因和时间\n• 疼痛部位\n• 是否影响活动\n• 有无拍过片子",
+            "眼": "眼科处理视力、眼部疾病。\n\n电话接通后说“转眼科”，建议说明：\n• 是视力下降、疼痛还是异物感\n• 单眼还是双眼\n• 持续多久了",
+            "耳鼻喉": "耳鼻喉科处理耳、鼻、咽喉相关疾病。\n\n电话接通后说“转耳鼻喉科”。建议在电话中说明：\n• 主要症状（鼻塞、耳鸣、咽痛等）\n• 持续时间\n• 是否反复发作",
+            "导诊": "不确定看哪个科室？可以告诉我您的具体症状，我来帮您判断。\n\n如果情况紧急（剧烈疼痛、大出血、呼吸困难等），请直接拨打 120！",
+            "挂号": "我院提供以下挂号方式：\n\n1️⃣ 电话挂号：拨打 400-123-4567 按提示操作\n2️⃣ 小程序挂号：微信搜索「中心医院」小程序\n3️⃣ 现场挂号：门诊大厅自助机或窗口\n\n建议提前预约，减少等待时间。",
+            "急诊": "⚠️ 急诊提示 ⚠️\n\n如果是以下情况，请直接拨打 120 或前往急诊：\n• 胸痛、呼吸困难\n• 大出血\n• 严重外伤\n• 意识模糊\n• 高热惊厥\n\n急诊 24 小时开放。",
+            "住院": "关于住院的常见问题：\n\n1️⃣ 如何办理住院：医生开具住院单→缴费→入住\n2️⃣ 需要携带：身份证、医保卡、个人用品\n3️⃣ 陪护规定：一般允许 1 人陪护（具体看科室规定）\n\n详情请拨打总机转住院部咨询。",
+            "default": "感谢您的咨询。为了更好地帮助电话沟通，建议您整理好以下信息：\n\n1️⃣ 主要症状（哪里不舒服？）\n2️⃣ 持续时间（从什么时候开始的？）\n3️⃣ 严重程度（0-10分打几分？）\n4️⃣ 有无用药或检查过？\n\n您可以直接告诉我症状，我帮您做导诊建议。"
+        };
+
+        function genReply(msg) {
+            const m = msg.toLowerCase();
+            for (const [k, v] of Object.entries(replies)) {
+                if (m.includes(k)) return v;
+            }
+            return replies.default;
+        }
+
+        function addMsg(text, role) {
+            const container = document.getElementById('chat-msgs');
+            const welcome = container.querySelector('.text-center.py-8');
+            if (welcome) welcome.remove();
+
+            const div = document.createElement('div');
+            div.className = role === 'user' ? 'flex justify-end' : '';
+
+            const time = new Date().toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' });
+
+            div.innerHTML = role === 'user'
+                ? `<div class="bubble-user max-w-[80%] px-4 py-2.5 text-sm leading-relaxed whitespace-pre-wrap">${escHtml(text)}</div>`
+                : `<div class="flex items-start gap-2 max-w-[88%]">
+                        <span class="w-7 h-7 rounded-full bg-teal-50 flex items-center justify-center text-sm shrink-0 mt-1">🤖</span>
+                        <div>
+                            <div class="flex items-center gap-2 mb-0.5">
+                                <span class="text-[10px] font-medium text-gray-500">AI 预咨询</span>
+                                <span class="text-[10px] text-gray-300">${time}</span>
+                            </div>
+                            <div class="bubble-bot px-4 py-2.5 text-sm leading-relaxed whitespace-pre-wrap text-gray-700">${escHtml(text)}</div>
+                        </div>
+                    </div>`;
+
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function showTyping() {
+            const container = document.getElementById('chat-msgs');
+            const div = document.createElement('div');
+            div.id = 'typing-el';
+            div.innerHTML = `
+                <div class="flex items-start gap-2">
+                    <span class="w-7 h-7 rounded-full bg-teal-50 flex items-center justify-center text-sm shrink-0 mt-1">🤖</span>
+                    <div class="bubble-bot px-4 py-3 rounded-xl">
+                        <div class="flex items-center gap-1">
+                            <span class="typing-dot"></span>
+                            <span class="typing-dot"></span>
+                            <span class="typing-dot"></span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function removeTyping() {
+            const el = document.getElementById('typing-el');
+            if (el) el.remove();
+        }
+
+        function escHtml(text) {
+            const d = document.createElement('div');
+            d.textContent = text;
+            return d.innerHTML;
+        }
+    </script>
+</body>
+</html>
