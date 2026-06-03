@@ -3,69 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>在线咨询</title>
+    <title>在线咨询 - 妇幼健康</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body {
-            background: #f0f4f8;
+            background: #f8fafc;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
         }
 
-        /* 顶部背景渐变 */
         .header-bg {
-            background: linear-gradient(135deg, #0f766e 0%, #0d9488 50%, #0891b2 100%);
+            background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%);
         }
 
-        /* 呼叫按钮 */
-        .call-btn {
-            background: linear-gradient(135deg, #10b981, #059669);
-            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.35);
-            transition: all 0.25s ease;
-        }
-        .call-btn:active {
-            transform: scale(0.95);
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.25);
-        }
-
-        /* 呼吸动画 */
-        .pulse-ring {
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5); }
-            70% { box-shadow: 0 0 0 20px rgba(16, 185, 129, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
-        }
-
-        /* 服务卡片 */
-        .service-card {
-            background: white;
-            border-radius: 16px;
-            transition: all 0.2s;
-        }
-        .service-card:active {
-            transform: scale(0.97);
-        }
-
-        /* 消息气泡 */
+        /* 客服头部气泡 */
         .bubble-user {
             background: #0d9488;
             color: white;
             border-radius: 18px 18px 4px 18px;
         }
-        .bubble-bot {
+        .bubble-service {
             background: white;
             border: 1px solid #e5e7eb;
             border-radius: 18px 18px 18px 4px;
         }
 
-        /* 打字动画 */
+        /* 客服头像呼吸动画 */
+        .avatar-pulse {
+            animation: pulse 2.5s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(13, 148, 136, 0.3); }
+            70% { box-shadow: 0 0 0 8px rgba(13, 148, 136, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(13, 148, 136, 0); }
+        }
+
+        /* 打字中 */
         .typing-dot {
             display: inline-block;
-            width: 7px;
-            height: 7px;
+            width: 6px;
+            height: 6px;
             background: #9ca3af;
             border-radius: 50%;
             animation: bounce 1.4s infinite ease-in-out;
@@ -74,137 +51,150 @@
         .typing-dot:nth-child(3) { animation-delay: 0.4s; }
         @keyframes bounce {
             0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
-            30% { transform: translateY(-7px); opacity: 1; }
+            30% { transform: translateY(-6px); opacity: 1; }
         }
 
-        /* 底部安全区 */
+        /* 快捷按钮 */
+        .quick-chip {
+            background: white;
+            border: 1px solid #e5e7eb;
+            transition: all 0.15s;
+        }
+        .quick-chip:active {
+            transform: scale(0.95);
+            border-color: #0d9488;
+            color: #0d9488;
+        }
+
+        /* 消息区滚动 */
+        #chat-box::-webkit-scrollbar { width: 3px; }
+        #chat-box::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 10px; }
+
         .safe-area-bottom {
-            padding-bottom: env(safe-area-inset-bottom, 16px);
+            padding-bottom: env(safe-area-inset-bottom, 12px);
+        }
+
+        /* 拨号按钮 */
+        .call-bar {
+            background: linear-gradient(135deg, #0d9488, #0f766e);
+            box-shadow: 0 2px 12px rgba(13, 148, 136, 0.25);
+        }
+        .call-bar:active {
+            transform: scale(0.97);
         }
     </style>
 </head>
 <body>
     <!-- 顶部 -->
-    <div class="header-bg text-white px-5 pt-12 pb-8 relative overflow-hidden">
-        <div class="relative z-10">
-            <div class="flex items-center gap-3 mb-2">
-                <span class="text-3xl">🏥</span>
-                <span class="text-sm font-medium bg-white/15 px-3 py-1 rounded-full">在线咨询</span>
+    <div class="header-bg text-white px-4 pt-11 pb-5 relative overflow-hidden">
+        <div class="relative z-10 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-base font-bold">在线客服</h1>
+                    <p class="text-[11px] text-white/70">妇幼健康服务中心</p>
+                </div>
             </div>
-            <h1 class="text-2xl font-bold">在线咨询</h1>
-            <p class="text-white/70 text-sm mt-1">24小时综合咨询服务</p>
+            <div class="flex items-center gap-2">
+                <span class="flex items-center gap-1 text-[10px] text-emerald-200 bg-white/10 px-2 py-1 rounded-full">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-300"></span> 在线
+                </span>
+            </div>
         </div>
-        <!-- 装饰圆 -->
-        <div class="absolute -right-16 -top-16 w-48 h-48 rounded-full bg-white/5"></div>
-        <div class="absolute -right-8 -bottom-8 w-32 h-32 rounded-full bg-white/5"></div>
+        <div class="absolute -right-12 -top-12 w-36 h-36 rounded-full bg-white/5"></div>
+        <div class="absolute -right-6 -bottom-6 w-24 h-24 rounded-full bg-white/5"></div>
     </div>
 
-    <div class="px-4 -mt-6 relative z-20">
-        <!-- 呼叫卡片 -->
-        <div class="service-card p-6 shadow-lg mb-4 text-center">
-            <div class="w-16 h-16 rounded-full bg-emerald-50 mx-auto mb-3 flex items-center justify-center pulse-ring">
-                <i class="fa-solid fa-phone-volume text-2xl text-emerald-600"></i>
-            </div>
-            <h2 class="text-lg font-bold text-gray-800 mb-1">在线咨询</h2>
-            <p class="text-xs text-gray-400 mb-4">点击下方按钮，直接拨打电话</p>
-            <a href="tel:400-123-4567"
-               class="call-btn block w-full py-4 rounded-2xl text-white font-bold text-xl tracking-wider">
-                <i class="fa-solid fa-phone mr-2"></i> 400-123-4567
-            </a>
-            <p class="text-xs text-gray-400 mt-3">
-                <i class="fa-regular fa-clock mr-1"></i> 7×24小时 · 免费咨询
-            </p>
-        </div>
+    <!-- 拨号条（缩小版） -->
+    <div class="px-4 -mt-3 relative z-20">
+        <a href="tel:400-123-4567"
+           class="call-bar flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-white text-sm font-medium">
+            <i class="fa-solid fa-phone"></i>
+            <span>拨打电话 400-123-4567</span>
+            <span class="text-[10px] text-white/60">7×24h</span>
+        </a>
+    </div>
 
-        <!-- 聊天区 -->
-        <div class="service-card p-5 shadow-sm mb-4">
-            <div class="flex items-center justify-between mb-3">
-                <h3 class="text-sm font-semibold text-gray-700 flex items-center gap-2">
-                    <i class="fa-regular fa-comment-dots text-emerald-500"></i>
-                    AI 预咨询
-                </h3>
-                <span class="text-[10px] text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">非 RAG · 纯对话</span>
-            </div>
-            <div id="chat-msgs" class="h-[340px] overflow-y-auto space-y-3 pr-1">
-                <div class="text-center py-8 text-gray-400">
-                    <p class="text-4xl mb-2">💬</p>
-                    <p class="text-sm">直接描述您的症状</p>
-                    <p class="text-xs mt-1">AI 将帮您整理病情，便于电话沟通</p>
+    <!-- 快捷入口 -->
+    <div class="px-4 mt-3">
+        <div class="flex gap-2 overflow-x-auto pb-1 scrollbar-none">
+            <button class="quick-chip shrink-0 px-4 py-2 rounded-full text-xs text-gray-600" data-msg="我怀孕8周了，最近孕吐很严重怎么办？">
+                孕吐严重 😣
+            </button>
+            <button class="quick-chip shrink-0 px-4 py-2 rounded-full text-xs text-gray-600" data-msg="产后42天复查需要检查什么项目？">
+                产后复查 📋
+            </button>
+            <button class="quick-chip shrink-0 px-4 py-2 rounded-full text-xs text-gray-600" data-msg="宝宝黄疸一直不退怎么办？">
+                新生儿黄疸 👶
+            </button>
+            <button class="quick-chip shrink-0 px-4 py-2 rounded-full text-xs text-gray-600" data-msg="产后情绪低落，老是哭怎么办？">
+                产后情绪 😢
+            </button>
+            <button class="quick-chip shrink-0 px-4 py-2 rounded-full text-xs text-gray-600" data-msg="怀孕可以打疫苗吗？">
+                孕期疫苗 💉
+            </button>
+        </div>
+    </div>
+
+    <!-- 聊天区 -->
+    <div class="px-4 mt-3">
+        <div id="chat-box" class="h-[calc(100vh-340px)] min-h-[320px] max-h-[500px] overflow-y-auto space-y-3 pr-1">
+            <!-- 欢迎消息 -->
+            <div class="text-center py-8 text-gray-400 select-none">
+                <div class="w-14 h-14 rounded-full bg-teal-50 mx-auto mb-3 flex items-center justify-center text-2xl avatar-pulse">
+                    👩‍⚕️
                 </div>
+                <p class="text-sm font-medium text-gray-600">您好，欢迎咨询妇幼健康服务中心</p>
+                <p class="text-xs text-gray-400 mt-1">孕期、产后、新生儿问题都可以问我</p>
+                <p class="text-[10px] text-gray-300 mt-2">⏰ 工作日 8:00-20:00 · 周末 9:00-18:00</p>
             </div>
         </div>
+    </div>
 
-        <!-- 输入区 -->
-        <div class="service-card p-4 shadow-sm mb-4">
-            <form id="chat-form" class="flex gap-2">
-                <input id="msg-input" type="text"
-                       class="flex-1 px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-emerald-400 focus:ring-1 focus:ring-emerald-200 transition"
-                       placeholder="描述您的症状..." autocomplete="off">
-                <button type="submit"
-                        class="px-5 py-3 rounded-xl bg-emerald-600 text-white text-sm font-medium hover:bg-emerald-500 transition disabled:opacity-50 active:scale-95"
-                        id="send-btn">
-                    <i class="fa-solid fa-paper-plane"></i>
-                </button>
-            </form>
-        </div>
-
-        <!-- 底部提示 -->
-        <div class="service-card p-5 shadow-sm mb-6">
-            <div class="flex items-center gap-3 text-gray-500 text-sm">
-                <i class="fa-solid fa-circle-info text-emerald-400"></i>
-                <span>直接点击上方电话按钮，接通后即可与医护人员沟通</span>
-            </div>
-        </div>
-
-        <!-- FAQ -->
-        <div class="service-card p-5 shadow-sm mb-6">
-            <h3 class="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
-                <i class="fa-solid fa-circle-question text-emerald-500"></i> 常见问题
-            </h3>
-            <div class="space-y-0 divide-y divide-gray-100">
-                <div class="faq-item py-3">
-                    <div class="faq-q flex items-center justify-between" onclick="this.parentElement.classList.toggle('faq-open')">
-                        <span class="text-sm text-gray-600">咨询收费吗？</span>
-                        <i class="fa-solid fa-chevron-down faq-arrow text-xs text-gray-400"></i>
-                    </div>
-                    <div class="faq-a text-xs text-gray-400 mt-1">电话咨询按标准市话收费，无额外服务费。AI 预咨询完全免费。</div>
-                </div>
-                <div class="faq-item py-3">
-                    <div class="faq-q flex items-center justify-between" onclick="this.parentElement.classList.toggle('faq-open')">
-                        <span class="text-sm text-gray-600">什么时间可以咨询？</span>
-                        <i class="fa-solid fa-chevron-down faq-arrow text-xs text-gray-400"></i>
-                    </div>
-                    <div class="faq-a text-xs text-gray-400 mt-1">医院总机 7×24 小时有人接听，AI 预咨询全天可用。</div>
-                </div>
-                <div class="faq-item py-3">
-                    <div class="faq-q flex items-center justify-between" onclick="this.parentElement.classList.toggle('faq-open')">
-                        <span class="text-sm text-gray-600">紧急情况怎么办？</span>
-                        <i class="fa-solid fa-chevron-down faq-arrow text-xs text-gray-400"></i>
-                    </div>
-                    <div class="faq-a text-xs text-gray-400 mt-1">紧急情况请直接拨打 120，本页面不适用于急救场景。</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 底部 -->
-        <div class="text-center text-[10px] text-gray-300 safe-area-bottom">
-            中心医院 · 在线咨询平台
-        </div>
+    <!-- 输入区 -->
+    <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 px-4 py-3 safe-area-bottom">
+        <form id="msg-form" class="flex gap-2">
+            <input id="msg-input" type="text"
+                   class="flex-1 px-4 py-2.5 rounded-xl bg-gray-50 border border-gray-200 text-sm focus:outline-none focus:border-teal-400 focus:ring-1 focus:ring-teal-200 transition"
+                   placeholder="描述您的问题..." autocomplete="off">
+            <button type="submit"
+                    class="px-4 py-2.5 rounded-xl bg-teal-600 text-white text-sm font-medium hover:bg-teal-500 transition disabled:opacity-50"
+                    id="send-btn">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19V5m0 0l-7 7m7-7l7 7"/>
+                </svg>
+            </button>
+        </form>
     </div>
 
     <script>
-        let isLoading = false;
+        let loading = false;
 
-        // 发送
-        document.getElementById('chat-form').addEventListener('submit', async (e) => {
+        // IC 图标库（只用于 phone icon，减少 CDN 依赖）
+        const phoneIcon = `<svg class="w-3.5 h-3.5 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>`;
+
+        //快捷按钮
+        document.querySelectorAll('.quick-chip').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.getElementById('msg-input').value = btn.dataset.msg;
+                document.getElementById('msg-form').requestSubmit();
+            });
+        });
+
+        //发送
+        document.getElementById('msg-form').addEventListener('submit', async (e) => {
             e.preventDefault();
-            if (isLoading) return;
+            if (loading) return;
 
             const input = document.getElementById('msg-input');
             const msg = input.value.trim();
             if (!msg) return;
 
-            isLoading = true;
+            loading = true;
             document.getElementById('send-btn').disabled = true;
             input.value = '';
 
@@ -213,81 +203,356 @@
 
             setTimeout(() => {
                 removeTyping();
-                addMsg(genReply(msg), 'bot');
-                isLoading = false;
+                addMsg(getReply(msg), 'service');
+                loading = false;
                 document.getElementById('send-btn').disabled = false;
             }, 600 + Math.random() * 1000);
         });
 
-        // 关键词回复（适合微信小程序场景的简短语气）
-        const replies = {
-            "内科": "内科涵盖心、肺、消化、内分泌等系统。\n\n您可以在电话接通后说“转内科”，然后向医生描述：\n• 主要症状及持续时间\n• 是否发烧\n• 有无基础病史\n\n建议先通过下方的 AI 咨询详细描述，我会帮您整理。",
-            "外科": "外科处理需要手术治疗的疾病。\n\n电话接通后说“转外科”，建议提前说明：\n• 疼痛部位和性质\n• 有无外伤史\n• 是否伴有发热\n\n您也可以现在描述症状，我帮您分析。",
-            "儿科": "儿科为 0-14 岁儿童提供诊疗服务。\n\n电话接通后说“转儿科”，建议说明：\n• 孩子年龄和体重\n• 主要症状\n• 体温情况\n• 精神状态\n\n⚠️ 如果孩子出现呼吸困难、高热惊厥，请直接去急诊或拨打 120。",
-            "妇科": "妇科处理女性生殖系统相关问题。\n\n电话接通后说“转妇科”。如需咨询，可以现在告诉我：\n• 主要不适（腹痛、异常出血等）\n• 持续时间\n• 是否与月经周期相关",
-            "骨科": "骨科处理骨骼、关节、肌肉相关问题。\n\n电话接通后说“转骨科”。建议在电话中说明：\n• 受伤原因和时间\n• 疼痛部位\n• 是否影响活动\n• 有无拍过片子",
-            "眼": "眼科处理视力、眼部疾病。\n\n电话接通后说“转眼科”，建议说明：\n• 是视力下降、疼痛还是异物感\n• 单眼还是双眼\n• 持续多久了",
-            "耳鼻喉": "耳鼻喉科处理耳、鼻、咽喉相关疾病。\n\n电话接通后说“转耳鼻喉科”。建议在电话中说明：\n• 主要症状（鼻塞、耳鸣、咽痛等）\n• 持续时间\n• 是否反复发作",
-            "导诊": "不确定看哪个科室？可以告诉我您的具体症状，我来帮您判断。\n\n如果情况紧急（剧烈疼痛、大出血、呼吸困难等），请直接拨打 120！",
-            "挂号": "我院提供以下挂号方式：\n\n1️⃣ 电话挂号：拨打 400-123-4567 按提示操作\n2️⃣ 小程序挂号：微信搜索「中心医院」小程序\n3️⃣ 现场挂号：门诊大厅自助机或窗口\n\n建议提前预约，减少等待时间。",
-            "急诊": "⚠️ 急诊提示 ⚠️\n\n如果是以下情况，请直接拨打 120 或前往急诊：\n• 胸痛、呼吸困难\n• 大出血\n• 严重外伤\n• 意识模糊\n• 高热惊厥\n\n急诊 24 小时开放。",
-            "住院": "关于住院的常见问题：\n\n1️⃣ 如何办理住院：医生开具住院单→缴费→入住\n2️⃣ 需要携带：身份证、医保卡、个人用品\n3️⃣ 陪护规定：一般允许 1 人陪护（具体看科室规定）\n\n详情请拨打总机转住院部咨询。",
-            "default": "感谢您的咨询。为了更好地帮助电话沟通，建议您整理好以下信息：\n\n1️⃣ 主要症状（哪里不舒服？）\n2️⃣ 持续时间（从什么时候开始的？）\n3️⃣ 严重程度（0-10分打几分？）\n4️⃣ 有无用药或检查过？\n\n您可以直接告诉我症状，我帮您做导诊建议。"
-        };
+        //客服回复（孕期/产后场景）
+        function getReply(text) {
+            const t = text.toLowerCase();
 
-        function genReply(msg) {
-            const m = msg.toLowerCase();
-            for (const [k, v] of Object.entries(replies)) {
-                if (m.includes(k)) return v;
+            //=== 孕吐 ===
+            if (t.includes('孕吐') || t.includes('恶心') || t.includes('吃不下') || t.includes('反胃')) {
+                return `您好，孕吐是孕早期非常常见的反应，多数在孕12周后会自然缓解。给您几个应对建议：
+
+1️⃣ **饮食调整**
+   - 少食多餐，空腹更容易恶心
+   - 早上起床前先吃几片苏打饼干再下床
+   - 避免油腻、辛辣、气味大的食物
+   - 可以试试柠檬水、姜茶
+
+2️⃣ **生活调整**
+   - 保持室内通风
+   - 避免接触刺激性气味（厨房油烟、香水）
+   - 保证充足睡眠
+
+3️⃣ **需要就医的情况**
+   - 完全不能进食进水
+   - 体重明显下降
+   - 呕吐物带血
+   - 尿量明显减少（可能是妊娠剧吐）
+
+⚠️ 如果严重影响生活，建议来医院检查一下尿常规，排除妊娠剧吐。`;
+
+            //=== 产后复查 ===
+            } else if (t.includes('复查') || t.includes('42天') || t.includes('产后检查')) {
+                return `产后42天复查是母婴都需要做的全面检查，很重要哦！
+
+👩 **妈妈检查项目：**
+- **妇科检查**：查看子宫恢复、恶露情况、会阴/剖宫产伤口愈合
+- **B超**：检查子宫大小及内膜恢复
+- **盆底功能评估**：非常重要！产后很多妈妈有盆底肌松弛
+- **血常规**：检查有无贫血、感染
+- **尿常规**
+- **血压测量**
+
+👶 **宝宝检查项目：**
+- **体格发育**：身高、体重、头围（评估生长曲线）
+- **神经行为测评**
+- **黄疸复查**
+- **听力复查**
+- **视力追视**
+- **髋关节B超**（部分医院常规做）
+
+💡 **温馨提示：**
+- 建议提前预约，挂"产后康复门诊"或"妇产科"
+- 带上宝宝的出生证明、预防接种证
+- 妈妈穿宽松方便的衣服
+- 如果恶露还没干净也一样要去，不可推迟`;
+
+            //=== 黄疸 ===
+            } else if (t.includes('黄疸') || t.includes('黄') || t.includes('宝宝') && (t.includes('皮肤') || t.includes('眼'))) {
+                return `新生儿黄疸很常见，先别太担心。我帮您判断一下情况：
+
+🔴 **生理性黄疸（正常）**
+- 出生后2-3天开始出现
+- 4-5天达到高峰
+- 7-10天逐渐消退
+- 宝宝吃奶、精神状态良好
+
+🟡 **需要警惕的情况：**
+- 出生后24小时内就出现黄疸 ⚠️
+- 黄疸持续超过2周未退
+- 黄疸范围蔓延到四肢、手心脚心
+- 宝宝精神差、嗜睡、吃奶无力
+- 大便颜色变浅（陶土色）
+
+💡 **家庭护理：**
+- 保证充分喂养，让宝宝多排便（排便是排胆红素的主要途径）
+- 每天在自然光下观察宝宝皮肤颜色变化
+- **不建议自行晒太阳**（紫外线可能损伤宝宝皮肤，且效果有限）
+
+🏥 **如果黄疸偏重，医院会安排：**
+- 经皮胆红素测定（无创）
+- 必要时做血清胆红素检查
+- 蓝光治疗（安全有效）
+
+建议您先观察宝宝的黄疸范围和精神状态，如果拿不准直接来医院测一下胆红素更放心。`;
+
+            //=== 产后情绪 ===
+            } else if (t.includes('情绪') || t.includes('抑郁') || t.includes('哭') || t.includes('低落') || t.includes('焦虑') || t.includes('难过')) {
+                return `${phoneIcon} 听到您这样说，我很关心您。产后情绪波动非常常见，大约有50-80%的产妇会有不同程度的情绪问题，这不是您的错。
+
+🌱 **产后情绪低落（Baby blues）**
+- 通常在产后3-5天出现
+- 症状：易哭、情绪起伏、失眠、焦虑
+- 一般持续2周内自行缓解
+- 处理：家人支持、充足休息、适当倾诉
+
+🌱 **产后抑郁（需要重视）**
+如果以下症状持续超过2周：
+- 持续的情绪低落、空虚
+- 对宝宝缺乏兴趣或过度焦虑
+- 失眠或嗜睡
+- 食欲明显变化
+- 自责、觉得自己不是好妈妈
+- 甚至有伤害自己或宝宝的念头 ⚠️
+
+💡 **您可以做的：**
+1️⃣ 告诉您的家人或伴侣，不要一个人扛着
+2️⃣ 保证每天至少有4-5小时连续睡眠（让家人帮忙带娃）
+3️⃣ 每天出门散步15-30分钟
+4️⃣ 加入产后妈妈群，和同龄宝妈交流
+
+🏥 **如果症状持续或加重，建议：**
+- 挂"产后康复门诊"或"心理科"
+- 医生会做爱丁堡产后抑郁量表（EPDS）评估
+- 必要时进行药物治疗（哺乳期有安全用药）
+
+您不是一个人，很多妈妈都经历过这个阶段。需要的时候一定要寻求帮助！❤️`;
+
+            //=== 孕期疫苗 ===
+            } else if (t.includes('疫苗') || t.includes('打疫苗') || t.includes('接种')) {
+                return `孕期疫苗接种有一些讲究，给您整理一下：
+
+✅ **孕期可以接种（安全）：**
+- **流感疫苗**（灭活）：孕任何阶段都可以，强烈推荐
+- **百白破疫苗（Tdap）**：孕中期或晚期（13周后），每次怀孕都要打一次
+- **乙肝疫苗**：如果未接种过或抗体不足，孕期可以接种
+
+❌ **孕期不能接种（活疫苗）：**
+- 麻腮风疫苗（MMR）
+- 水痘疫苗
+- 卡介苗
+- 鼻喷流感疫苗（活疫苗）
+- HPV疫苗（虽然安全性数据好，但国内暂不推荐孕期接种）
+
+💡 **备孕阶段的疫苗**（建议孕前完成）：
+- 风疹疫苗（接种后避孕1个月）
+- 乙肝疫苗（3针打完）
+- 水痘疫苗（如果没得过）
+
+如果您不确定自己疫苗是否打全，可以查一下体检报告里的抗体检查结果。`;
+
+            //=== 孕期营养 ===
+            } else if (t.includes('营养') || t.includes('吃') || t.includes('叶酸') || t.includes('钙') || t.includes('补') || t.includes('维生素')) {
+                return `孕期营养很关键，给您按阶段整理：
+
+📌 **孕早期（1-3个月）**
+- 叶酸：每日0.4mg，至少补到孕12周（重要：预防神经管畸形）
+- 正常饮食，不需要额外加量
+- 如果有孕吐，保证水分摄入
+
+📌 **孕中期（4-6个月）**
+- 每日增加300-350千卡热量
+- 注意补充：优质蛋白（鱼、肉、蛋、奶）
+- 铁：预防贫血（红肉、动物肝脏每周1-2次）
+- 钙：每日1000mg（奶制品、豆制品、绿叶蔬菜）
+
+📌 **孕晚期（7-9个月）**
+- 每日增加450-500千卡
+- 继续补铁补钙
+- DHA：每周吃2次深海鱼（三文鱼、鳕鱼）
+- 控制体重增长，避免巨大儿
+
+⚠️ **注意：**
+- 不建议吃生食（刺身、生鱼片）→ 弓形虫风险
+- 避免酒精、过量咖啡因（每日咖啡≤1杯）
+- 如需吃中药或保健品，先咨询产科医生
+
+推荐孕中晚期每天：1杯牛奶 + 1个鸡蛋 + 2份水果 + 3份蔬菜 + 适量主食和蛋白`;
+
+            //=== 剖宫产 ===
+            } else if (t.includes('剖腹') || t.includes('剖宫') || t.includes('刨') || t.includes('手术')) {
+                return `关于剖宫产，给您一些信息参考：
+
+**什么情况需要剖宫产？**
+① 绝对指征：骨盆狭窄、中央性前置胎盘、横位
+② 相对指征：巨大儿（≥4000g）、胎儿窘迫、妊娠期高血压控制不佳、瘢痕子宫
+
+**术前准备：**
+- 术前禁食6-8小时
+- 一般术前会备皮、插尿管
+- 麻醉方式：腰麻/硬膜外麻醉（半麻，全程清醒）
+
+**术后恢复提醒：**
+- 手术后6小时：去枕平卧，禁食
+- 术后24小时：拔尿管后尽早下床活动（防止血栓）
+- 排气前：只能喝流食（米汤、菜汤）
+- 排气后：逐步过渡到半流质→软食→正常饮食
+- 伤口护理：保持干燥，一般5-7天拆线（美容缝合可吸收线不用拆）
+- 产后42天内避免提重物、剧烈运动
+- 建议间隔2年以上再怀孕（降低子宫破裂风险）
+
+**剖宫产≠失败**，不要有心理压力。为了宝宝安全选择合适的方式就是最好的选择。`;
+
+            //=== 新生儿护理 ===
+            } else if (t.includes('脐带') || t.includes('肚脐') || t.includes('洗澡') || t.includes('脐')) {
+                return `新生儿脐部护理很重要，给您详细说明：
+
+🧼 **脐带护理方法：**
+1. 保持干燥、清洁是核心原则
+2. 每天用75%酒精或碘伏棉签消毒1-2次
+3. 由内向外螺旋式消毒
+4. 尿布不要盖住脐带根部（可以把尿布上缘翻折）
+5. 一般1-2周自然脱落
+
+🔴 **需要就医的异常信号：**
+- 脐周红肿、有脓性分泌物
+- 有臭味
+- 出血不止
+- 宝宝触碰脐部时哭闹加重
+
+🛁 **洗澡注意事项：**
+- 脐带脱落前：分段洗（先洗上半身，擦干后再洗下半身）
+- 洗完后用干棉签吸干脐根部水分
+- 脐带脱落后：可以正常盆浴
+- 浴后可以在脐窝涂少许酒精保持干燥
+
+💡 **脐带脱落后有时有少量渗血或淡黄色分泌物，只要没有红肿异味，一般属于正常。**`;
+
+            //=== 追奶 ===
+            } else if (t.includes('母乳') || t.includes('奶水') || t.includes('追奶') || t.includes('不够') || t.includes('喂养')) {
+                return `关于母乳喂养和追奶，给您一些实用的方法：
+
+🤱 **判断奶水够不够：**
+✅ 够的指标：每天换6-8次湿尿布、体重增长正常、喂完后宝宝满足
+❌ 不够的信号：尿量少（<6次/天）、体重不增或下降、哭闹不满足
+
+📈 **追奶方法（科学有效）：**
+1️⃣ **增加吸吮次数**：每2-3小时喂一次，夜间也要喂（催乳素夜间分泌高峰）
+2️⃣ **正确含接**：含住大部分乳晕，不是只含乳头
+3️⃣ **两边都喂**：每侧15-20分钟，这次先左后右，下次先右后左
+4️⃣ **多喝水**：每天喝够2000-3000ml（汤水、牛奶、豆浆都算）
+5️⃣ **保证休息**：压力大、睡眠不足直接影响泌乳
+6️⃣ **可以使用吸奶器**：喂完后再吸10分钟，告诉身体"还需要更多"
+7️⃣ **尝试下奶食物**：鲫鱼汤、猪蹄花生汤、通草、木瓜牛奶（效果因人而异）
+
+⚠️ **不要踩的坑：**
+- 不要随意加奶粉（不加奶粉才能刺激产奶）
+- 不要因为一次没喂够就给自己太大压力
+- 焦虑是奶水的头号杀手！
+
+如果坚持2周追奶效果不佳，可以挂医院的"母乳喂养门诊"或"产后康复门诊"找专业指导。`;
+
+            //=== 胎动 ===
+            } else if (t.includes('胎动') || t.includes('不动') || t.includes('胎心')) {
+                return `胎动是判断宝宝在宫内状态的重要指标，给您一些参考：
+
+📊 **正常胎动：**
+- 孕20周左右开始感觉胎动
+- 孕28周后胎动会变得规律
+- 每天早中晚各数1小时：正常≥3次/小时
+- 12小时总数：30次以上为正常
+
+🔴 **需要立即就医的异常信号：**
+- 胎动明显减少（比平时少50%以上）
+- 连续12小时感觉不到胎动
+- 胎动突然变得异常剧烈然后停止
+
+🏥 **发现胎动减少怎么办：**
+1️⃣ 先改变体位（侧躺）
+2️⃣ 吃点东西或喝杯温水
+3️⃣ 轻拍腹部或跟宝宝说话
+4️⃣ 如果30分钟后仍无改善 → **立即去医院**
+5️⃣ 医院会做胎心监护（NST）+ B超检查
+
+💡 **建议从孕28周开始每天固定时间数胎动，记录下来产检时给医生看。**`;
+
+            //=== 产后康复 ===
+            } else if (t.includes('盆底') || t.includes('漏尿') || t.includes('凯格尔') || t.includes('康复') || t.includes('恢复')) {
+                return `产后康复是很多妈妈关心的问题，给您介绍一下：
+
+🧘 **盆底康复（非常重要！）**
+产后42天复查时会评估盆底肌力，如果肌力不足：
+- **凯格尔运动**：收紧盆底肌（像憋尿一样）→保持3-5秒→放松，每天3组×10次
+- **生物反馈治疗**：用仪器帮你找到正确的肌肉发力方式
+- **电刺激治疗**：被动收缩盆底肌
+- **最佳康复窗口**：产后6个月内
+
+💧 **漏尿怎么办？**
+- 轻度：坚持凯格尔运动+盆底康复治疗
+- 中重度：可考虑尿道中段悬吊术（微创）
+- 不要因为漏尿就不敢喝水、不敢出门
+
+🤸 **腹直肌分离**
+- 产后常见，一般会自然恢复
+- 如果分离≥2cm：需要做腹直肌康复训练
+- **绝对不要做仰卧起坐**（会加重分离！）
+- 推荐：腹式呼吸、臀桥、猫式伸展
+
+🥗 **产后体重恢复**
+- 不要太着急减肥（前3个月以恢复为主）
+- 哺乳本身就消耗热量（每天约300-500千卡）
+- 建议产后4-6个月再开始减重计划
+- 推荐：快走+产后瑜伽+合理饮食
+
+建议产后42天复查时全面评估，听取医生的个性化方案！`;
+
+            //=== 默认回复 ===
+            } else {
+                return `感谢您的咨询！为了更好地帮您解答，请告诉我：
+
+1️⃣ 您目前是孕期还是产后？大概多少周/多久了？
+2️⃣ 主要想咨询哪方面的问题？（产检、营养、症状、宝宝护理等）
+
+您可以直接描述具体情况，我会尽力为您解答。如果情况紧急（如剧烈腹痛、大出血、胎动消失等），请直接拨打 120 或前往医院急诊！🏥`;
             }
-            return replies.default;
         }
 
         function addMsg(text, role) {
-            const container = document.getElementById('chat-msgs');
-            const welcome = container.querySelector('.text-center.py-8');
+            const box = document.getElementById('chat-box');
+            const welcome = box.querySelector('.text-center.py-8');
             if (welcome) welcome.remove();
 
             const div = document.createElement('div');
-            div.className = role === 'user' ? 'flex justify-end' : '';
-
             const time = new Date().toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' });
 
-            div.innerHTML = role === 'user'
-                ? `<div class="bubble-user max-w-[80%] px-4 py-2.5 text-sm leading-relaxed whitespace-pre-wrap">${escHtml(text)}</div>`
-                : `<div class="flex items-start gap-2 max-w-[88%]">
-                        <span class="w-7 h-7 rounded-full bg-teal-50 flex items-center justify-center text-sm shrink-0 mt-1">🤖</span>
-                        <div>
-                            <div class="flex items-center gap-2 mb-0.5">
-                                <span class="text-[10px] font-medium text-gray-500">AI 预咨询</span>
-                                <span class="text-[10px] text-gray-300">${time}</span>
-                            </div>
-                            <div class="bubble-bot px-4 py-2.5 text-sm leading-relaxed whitespace-pre-wrap text-gray-700">${escHtml(text)}</div>
+            if (role === 'user') {
+                div.innerHTML = `<div class="flex justify-end">
+                    <div class="bubble-user max-w-[85%] px-4 py-2.5 text-sm leading-relaxed whitespace-pre-wrap">${esc(text)}</div>
+                </div>`;
+            } else {
+                div.innerHTML = `<div class="flex items-start gap-2 max-w-[92%]">
+                    <div class="w-8 h-8 rounded-full bg-teal-50 flex items-center justify-center text-base shrink-0 mt-1 avatar-pulse">👩‍⚕️</div>
+                    <div>
+                        <div class="flex items-center gap-2 mb-0.5 ml-1">
+                            <span class="text-[11px] font-medium text-teal-700">客服小雅</span>
+                            <span class="text-[10px] text-gray-300">${time}</span>
                         </div>
-                    </div>`;
+                        <div class="bubble-service px-4 py-2.5 text-sm leading-relaxed whitespace-pre-wrap text-gray-700">${esc(text)}</div>
+                    </div>
+                </div>`;
+            }
 
-            container.appendChild(div);
-            container.scrollTop = container.scrollHeight;
+            box.appendChild(div);
+            box.scrollTop = box.scrollHeight;
         }
 
         function showTyping() {
-            const container = document.getElementById('chat-msgs');
+            const box = document.getElementById('chat-box');
             const div = document.createElement('div');
             div.id = 'typing-el';
-            div.innerHTML = `
-                <div class="flex items-start gap-2">
-                    <span class="w-7 h-7 rounded-full bg-teal-50 flex items-center justify-center text-sm shrink-0 mt-1">🤖</span>
-                    <div class="bubble-bot px-4 py-3 rounded-xl">
-                        <div class="flex items-center gap-1">
-                            <span class="typing-dot"></span>
-                            <span class="typing-dot"></span>
-                            <span class="typing-dot"></span>
-                        </div>
-                    </div>
+            div.innerHTML = `<div class="flex items-start gap-2">
+                <div class="w-8 h-8 rounded-full bg-teal-50 flex items-center justify-center text-base shrink-0 mt-1">👩‍⚕️</div>
+                <div class="bubble-service px-4 py-3 rounded-xl">
+                    <div class="flex items-center gap-1"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div>
                 </div>
-            `;
-            container.appendChild(div);
-            container.scrollTop = container.scrollHeight;
+            </div>`;
+            box.appendChild(div);
+            box.scrollTop = box.scrollHeight;
         }
 
         function removeTyping() {
@@ -295,9 +560,9 @@
             if (el) el.remove();
         }
 
-        function escHtml(text) {
+        function esc(t) {
             const d = document.createElement('div');
-            d.textContent = text;
+            d.textContent = t;
             return d.innerHTML;
         }
     </script>
